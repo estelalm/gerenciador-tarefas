@@ -1,0 +1,56 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --tarefa: #9EC5E2;
+    --fundo2: #C8A4E9;
+    --modo-editar: #F6C0F8;
+    --botao: #8F5FBC;
+    --branco: #F4F4ED;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 16vh 1fr;
+    background-color: var(--fundo2);
+    margin: 10px;
+}
+
+header{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    padding: 32px;
+}
+.logo{
+    height: 100%;
+}
+.tarefa{
+    width: 20vw;
+    height: 8vh;
+    display: flex;
+    background-color: var(--branco);
+    overflow: hidden;
+    border-radius: 10px;
+    border: solid black 2px;
+}
+.icone-e-cor{
+    width: 20%;
+    background-color: var(--tarefa);
+    padding: 12px;
+    display: grid;
+    place-content: center;
+}
+.icone-e-cor img{
+    height: 3vh;
+}
+.info-tarefa{
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+}
