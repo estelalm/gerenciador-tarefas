@@ -12,9 +12,33 @@ body{
 
 header{
     width: 100vw;
+    height: 20vh;
     padding-top: 40px;
+    display: flex;
+    justify-content: center;
 }
 
 header img{
     height: 70px;
+}
+
+main{
+    width: 100vw;
+    height: 60vh;
+    display: grid;
+    place-content: center;
+}
+
+.card{
+    height: 420px;
+    width: 400px;
+    background-color: #F9F9F7;
+    border-radius: 20px;
+    display: grid;
+
+}
+
+h1{
+    color: #451781;
+    font-family: 'Lakki Reddy', serif;
 }
