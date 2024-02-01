@@ -10,6 +10,8 @@
     --modo-editar: #F6C0F8;
     --botao: #8F5FBC;
     --branco: #F4F4ED;
+    --titulos: 'Lakki Reddy', serif;
+    --textos: 'Inter', sans-serif;
 }
 
 body{
@@ -19,6 +21,7 @@ body{
     grid-template-rows: 16vh 1fr;
     background-color: var(--fundo2);
     margin: 10px;
+    overflow: hidden;
 }
 
 header{
@@ -30,6 +33,26 @@ header{
 .logo{
     height: 100%;
 }
+
+
+main{
+    padding: 2vh 3vw;
+}
+
+
+.tarefas-pendentes{
+    width: 100%;
+    font-family: var(--textos);
+}
+.tarefas{
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+
 .tarefa{
     width: 20vw;
     height: 8vh;
@@ -38,6 +61,7 @@ header{
     overflow: hidden;
     border-radius: 10px;
     border: solid black 2px;
+    font-size: 1.1rem;
 }
 .icone-e-cor{
     width: 20%;
@@ -45,12 +69,18 @@ header{
     padding: 12px;
     display: grid;
     place-content: center;
+    border-right: solid black 1px;
 }
 .icone-e-cor img{
-    height: 3vh;
+    height: 4vh;
+    transition: 1s;
 }
 .info-tarefa{
     display: flex;
     flex-direction: column;
     padding: 12px;
+}
+.icone-e-cor.edit-mode{
+    background-color:     var(--modo-editar);
+
 }

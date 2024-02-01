@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Lakki+Reddy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./inicio.css">
+    <script src="./inicio.js" defer></script>
     <title>Minhas tarefas</title>
 </head>
 <body>
@@ -12,16 +16,27 @@
     </header>
     <main>
         <div class="realizar-hoje" id="hoje">
-
         </div>
         <div class="tarefas-pendentes" id="pendentes">
-            <div class="tarefa">
-                <div class="icone-e-cor">
-                    <img src="../img/edit.svg" alt="">
+            <h3>Tarefas pendentes</h3>
+            <div class="tarefas" id="tarefas">
+                <div class="tarefa">
+                    <div class="icone-e-cor">
+                        <img src="../img/edit.svg" alt="">
+                    </div>
+                    <div class="info-tarefa">
+                        <span class="titulo-tarefa">Limpar a casa</span>
+                        <span class="data-tarefa">31/01/2024</span>
+                    </div>
                 </div>
-                <div class="info-tarefa">
-                    <span class="titulo-tarefa">Limpar a casa</span>
-                    <span class="data-tarefa">31/01/2024</span>
+                <div class="tarefa edit-mode">
+                    <div class="icone-e-cor" id="editar">
+                        <img src="../img/edit.svg" alt="">
+                    </div>
+                    <div class="info-tarefa" id="info-tarefa">
+                        <span class="titulo-tarefa">Limpar a casa</span>
+                        <span class="data-tarefa">31/01/2024</span>
+                    </div>
                 </div>
             </div>
         </div>
