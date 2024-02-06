@@ -16,13 +16,11 @@ const modoEditar = () =>{
     const dataConclusao = document.querySelector('.data-tarefa')
 
     if(infoTarefa.classList == 'edit-mode'){
-        const inputTitulo = document.createElement('input')
+        const inputTitulo = document.createElement('span')
         inputTitulo.value = titulo.innerHTML
-        infoTarefa.innerHTML = "<input>"
     
-        const inputData = document.createElement('input')
+        const inputData = document.createElement('span')
         inputData.value = dataConclusao.innerHTML
-        infoTarefa.innerHTML = "<input>"
     
         infoTarefa.replaceChildren(inputTitulo, inputData)
     }else{

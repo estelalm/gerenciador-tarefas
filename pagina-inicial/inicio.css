@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 :root {
@@ -27,8 +28,8 @@ body{
 header{
     width: 100%;
     display: flex;
-    justify-content: start;
-    padding: 32px;
+    justify-content: space-between;
+    padding: 32px 64px;
 }
 .logo{
     height: 100%;
@@ -70,6 +71,10 @@ main{
     display: grid;
     place-content: center;
     border-right: solid black 1px;
+    transition: 0.3s;
+}
+.icone-e-cor:hover{
+    background-color: #539ed8;
 }
 .icone-e-cor img{
     height: 4vh;
@@ -77,10 +82,34 @@ main{
 }
 .info-tarefa{
     display: flex;
+    justify-content: center;
     flex-direction: column;
     padding: 12px;
 }
 .icone-e-cor.edit-mode{
-    background-color:     var(--modo-editar);
+    background-color: var(--modo-editar);
+}
 
+.add-tarefa{
+    font-size: 1.2rem;
+    color: black;
+    background-color: var(--modo-editar);
+    padding: 12px;
+    height: 60%;
+    border: solid 2px black;
+    border-radius: 12px;
+    font-family: var(--textos);
+    display: grid;
+    place-content: center;
+}
+
+input{
+    font-family: var(--textos);
+    padding: 4px;
+    background: white;
+    border: none;
+    border-bottom: solid 1px black;
+}
+input:hover{
+    color: rgb(45, 92, 180);
 }
