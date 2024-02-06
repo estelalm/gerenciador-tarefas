@@ -35,10 +35,42 @@ main{
     background-color: #F9F9F7;
     border-radius: 20px;
     display: grid;
-
+    padding: 46px 24px;
+    box-shadow: black 1px 2px 8px;
 }
 
 h1{
     color: #451781;
     font-family: 'Lakki Reddy', serif;
+    text-align: center;
+}
+.inputs-login{
+}
+input{
+    outline: none;
+    border: none;
+    background: none;
+    border-bottom: solid 2px black;
+    padding: 8px;
+    width: 100%;
+}
+input::placeholder{
+    font-family: 'Inter', sans-serif;
+}
+
+.esqueci-senha{
+    text-align: end;
+    font-family: 'Lakki Reddy', serif;
+    text-decoration: none;
+    color: black;
+}
+
+button{
+    font-family: 'Lakki Reddy', serif;
+    color: white;
+    background-color: #8093F1;
+    border: none;
+    border-radius: 12px;
+    height: 6vh;
+    font-size: 1.2rem;
 }
