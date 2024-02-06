@@ -13,24 +13,19 @@ async function validarLogin(){
 
         listUsers.forEach((user) => {
             
-            if(user.senha ==  "joao"){
-                console.log("ok");
-                
-            }
-            
-            if(email == user.email && senha == user.senha){
+            if( email == user.email && senha == user.senha){
                 alert('Usuário Logado com Sucesso !!!');
-                window.location.href = '../pagina-inicial/inicio.html';
+                let idUsuario = user.id
+                localStorage.setItem('usuarioId', idUsuario)
+                window.location.assign('../pagina-inicial/inicio.html')
             } else{
-                console.log(user.email)
-                console.log(email)
+                console.log('caiu no else')
             }
         })
 
     } catch (error){
         console.error(error);
     }
-
 
 }
 
