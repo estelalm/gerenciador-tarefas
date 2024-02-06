@@ -24,7 +24,7 @@ header img{
 
 main{
     width: 100vw;
-    height: 60vh;
+    height: 65vh;
     display: grid;
     place-content: center;
 }
@@ -43,14 +43,27 @@ h1{
     color: #451781;
     font-family: 'Lakki Reddy', serif;
     text-align: center;
+    font-size: 40px;
 }
-.inputs-login{
+
+/* .inputs-login{
+    display: grid;
+    gap: 10px;
+} */
+
+.input-container{
+    display: flex;
+    border-bottom: solid 2px black;
 }
+
+.input-container img{
+    height: 25px;
+}
+
 input{
     outline: none;
     border: none;
     background: none;
-    border-bottom: solid 2px black;
     padding: 8px;
     width: 100%;
 }
@@ -65,12 +78,43 @@ input::placeholder{
     color: black;
 }
 
-button{
+.botao-entrar a{
     font-family: 'Lakki Reddy', serif;
     color: white;
-    background-color: #8093F1;
+    background-color: #4D578B;
     border: none;
     border-radius: 12px;
     height: 6vh;
     font-size: 1.2rem;
+    width: 10vw;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.botao-entrar{
+    display: grid;
+    place-content: center;
+    
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+}
+
+.botao-criar-conta a{
+    font-family: 'Lakki Reddy', serif;
+    color: white;
+    background-color: #8093F1;
+    border: none;
+    border-radius: 10px;
+    height: 7vh;
+    font-size: 1.6rem;
+    width: 30vw;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
