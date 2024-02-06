@@ -79,6 +79,7 @@ main{
     padding: 12px;
     display: grid;
     place-content: center;
+    border: none;
     border-right: solid black 1px;
     transition: 0.3s;
 }
