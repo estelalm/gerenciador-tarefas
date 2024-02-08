@@ -17,6 +17,7 @@ async function validarLogin(){
                 alert('Usuário Logado com Sucesso !!!');
                 let idUsuario = user.id
                 localStorage.setItem('usuarioId', idUsuario)
+                console.log(localStorage.getItem('usuarioId'))
                 window.location.assign('../pagina-inicial/inicio.html')
             } else{
                 console.log('caiu no else')

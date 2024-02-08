@@ -1,6 +1,6 @@
 'use strict'
 
-let usuarioId = 3
+let usuarioId = localStorage.getItem('usuarioId')
 
 async function getTarefas() {
     const responseApi = await fetch('http://localhost:5080/tarefas')
