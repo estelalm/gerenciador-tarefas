@@ -87,7 +87,7 @@ input::placeholder{
     color: black;
 }
 
-.botao-entrar a{
+.botao-entrar button{
     font-family: 'Lakki Reddy', serif;
     color: white;
     background-color: #4D578B;
