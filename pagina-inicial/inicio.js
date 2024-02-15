@@ -16,7 +16,7 @@ async function getUsuarios() {
 }
 
 
-const criarTarefa = (tarefa) =>{
+const criarTarefa = (tarefas, tarefa) =>{
 
     const containerDeTarefas = document.getElementById('tarefas')
     const containerTarefaDeHoje = document.getElementById('tarefas-hoje')
@@ -38,12 +38,12 @@ const criarTarefa = (tarefa) =>{
     dataConclusao.textContent = tarefa.dataConclusão
     dataConclusao.classList.add('data-tarefa')
 
-    const deletarTarefa = document.createElement('img')
-    deletarTarefa.src = 'url(../img/delete.svg)'
+    const deletarTarefa = document.createElement('button')
+    deletarTarefa.style.backgroundImage = '../img/delete.svg'
     deletarTarefa.classList.add('deletar-tarefa')
 
-    infoTarefa.replaceChildren(tituloTarefa, dataConclusao, deletarTarefa)
-    containerTarefa.replaceChildren(botaoEditarSalvar, infoTarefa)
+    infoTarefa.replaceChildren(tituloTarefa, dataConclusao)
+    containerTarefa.replaceChildren(botaoEditarSalvar, infoTarefa, deletarTarefa)
     if(tarefa.dataConclusão == getDataAtual()){
     containerTarefaDeHoje.appendChild(containerTarefa)
 
@@ -51,7 +51,19 @@ const criarTarefa = (tarefa) =>{
         containerDeTarefas.appendChild(containerTarefa)
     }
     botaoEditarSalvar.addEventListener('click', modoEditar)
+    deletarTarefa.addEventListener('click', async () =>{
+        // let tarefaIndex = tarefas.indexOf(tarefa)
+        // tarefas.splice(tarefaIndex, 1)
+        // console.log('clicou')
+            const url = `http://localhost:5080/tarefas/${tarefa.id}`
+            const options = {
+                method: 'DELETE'
+            }
+            const response = await fetch(url, options)
+            console.log (response.ok)
 
+            window.location.reload()
+    })
 
  }
 
@@ -59,7 +71,7 @@ const criarTarefa = (tarefa) =>{
      const tarefas = await getTarefas()
      tarefas.forEach(tarefa =>{
          if(tarefa.idUsuario == usuarioId)
-          criarTarefa(tarefa)
+          criarTarefa(tarefas, tarefa)
      })
  }
 

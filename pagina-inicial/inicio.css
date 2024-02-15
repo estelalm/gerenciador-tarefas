@@ -117,9 +117,10 @@ h3{
     place-content: center;
 }
 .deletar-tarefa{
-    position: relative;
-    top: -80%;
-    right: -14vw;
+    border: none;
+    background-image: ;
+    top: 10px;
+    right: -50%;
 }
 
 input{
