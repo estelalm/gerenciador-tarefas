@@ -20,7 +20,7 @@ async function validarLogin(){
                 console.log(localStorage.getItem('usuarioId'))
                 window.location.assign('../pagina-inicial/inicio.html')
             } else{
-                console.log('caiu no else')
+                alert('Usuário ou senha incorretos')
             }
         })
 

@@ -19,14 +19,13 @@ async function getUsuarios() {
 const criarTarefa = (tarefa) =>{
 
     const containerDeTarefas = document.getElementById('tarefas')
+    const containerTarefaDeHoje = document.getElementById('tarefas-hoje')
 
     const containerTarefa = document.createElement('div')
     containerTarefa.classList.add('tarefa')
 
     const botaoEditarSalvar = document.createElement('button')
     botaoEditarSalvar.classList.add('icone-e-cor')
-    const iconeEditar = document.createElement('img')
-    iconeEditar.src = '../img/edit.svg'
 
     const infoTarefa = document.createElement('div')
     infoTarefa.classList.add('info-tarefa')
@@ -39,12 +38,21 @@ const criarTarefa = (tarefa) =>{
     dataConclusao.textContent = tarefa.dataConclusão
     dataConclusao.classList.add('data-tarefa')
 
-    botaoEditarSalvar.appendChild(iconeEditar)
-    infoTarefa.replaceChildren(tituloTarefa, dataConclusao)
-    containerTarefa.replaceChildren(botaoEditarSalvar, infoTarefa)
-    containerDeTarefas.appendChild(containerTarefa)
+    const deletarTarefa = document.createElement('img')
+    deletarTarefa.src = 'url(../img/delete.svg)'
+    deletarTarefa.classList.add('deletar-tarefa')
 
+    infoTarefa.replaceChildren(tituloTarefa, dataConclusao, deletarTarefa)
+    containerTarefa.replaceChildren(botaoEditarSalvar, infoTarefa)
+    if(tarefa.dataConclusão == getDataAtual()){
+    containerTarefaDeHoje.appendChild(containerTarefa)
+
+    }else{
+        containerDeTarefas.appendChild(containerTarefa)
+    }
     botaoEditarSalvar.addEventListener('click', modoEditar)
+
+
  }
 
  const carregarTarefas = async () =>{
@@ -60,7 +68,6 @@ const criarTarefa = (tarefa) =>{
      usuarios.forEach(usuario =>{
         if(usuario.id == usuarioId){
             let nomeUsuario = usuario.nome.split(" ")
-            
             let campoNomeUsuario = document.getElementById('nomeUsuario')
             campoNomeUsuario.textContent = nomeUsuario[0]
         }
@@ -68,16 +75,27 @@ const criarTarefa = (tarefa) =>{
  }
 
 
-const modoEditar = (botaoEditar) =>{
+const modoEditar = (clickEvent) =>{
 
-    console.log('clicou')
+    let botaoEditar = clickEvent.target
+    console.log('clicou', botaoEditar)
 
     botaoEditar.classList.toggle('edit-mode')
 
-    if(botaoEditar.classList == 'edit-mode'){
-        botaoEditar.innerHTML = '<img src="../img/save.svg" alt="">'
+}
+const editarTarefa = (botaoEditar) =>{
+    if(!botaoEditar.classList == 'edit-mode'){
+
     }
 }
+
+const getDataAtual = () =>{
+    let dataAtual = new Date().toLocaleDateString()
+    console.log(dataAtual)
+    return dataAtual
+}
+
+getDataAtual()
 
 carregarUsuario()
 carregarTarefas()
