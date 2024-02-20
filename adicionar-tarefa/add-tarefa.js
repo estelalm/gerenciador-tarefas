@@ -19,7 +19,7 @@ async function getTarefas() {
 const adicionarTarefa = () =>{
 
     let tituloTarefa = tituloInput.value
-    let conclusaoTarefa = conclusaoInput.value
+    let conclusaoTarefa = conclusaoInput.value.split('-').reverse().join('/')
 
     if(tituloTarefa == "" || conclusaoTarefa == ""){
         alert('Preencha todos os campos!')

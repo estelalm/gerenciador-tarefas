@@ -19,7 +19,7 @@ header{
 }
 
 header img{
-    height: 120px;
+    height: 70px;
 }
 
 main{
@@ -30,8 +30,8 @@ main{
 }
 
 .card{
-    height: 400px;
-    width: 600px;
+    height: 420px;
+    width: 400px;
     background-color: #F9F9F7;
     border-radius: 20px;
     display: grid;
@@ -46,10 +46,10 @@ h1{
     font-size: 40px;
 }
 
-.inputs-login{
+/* .inputs-login{
     display: grid;
-    gap: 40px;
-}
+    gap: 10px;
+} */
 
 .input-container{
     display: flex;
@@ -57,11 +57,8 @@ h1{
 }
 
 .input-container img{
-    height: 27px;
-    width: 30px;
+    height: 25px;
 }
-
-
 
 input{
     outline: none;
@@ -70,7 +67,6 @@ input{
     padding: 8px;
     width: 100%;
 }
-
 input::placeholder{
     font-family: 'Inter', sans-serif;
 }
@@ -90,7 +86,7 @@ input::placeholder{
     border-radius: 12px;
     height: 6vh;
     font-size: 1.2rem;
-    width: 8vw;
+    width: 10vw;
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -116,7 +112,7 @@ footer{
     border-radius: 10px;
     height: 7vh;
     font-size: 1.6rem;
-    width: 15vw;
+    width: 30vw;
     text-decoration: none;
     display: flex;
     justify-content: center;

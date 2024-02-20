@@ -14,10 +14,8 @@ async function validarLogin(){
         listUsers.forEach((user) => {
             
             if( email == user.email && senha == user.senha){
-                alert('Usuário Logado com Sucesso !!!');
                 let idUsuario = user.id
                 localStorage.setItem('usuarioId', idUsuario)
-                console.log(localStorage.getItem('usuarioId'))
                 window.location.assign('../pagina-inicial/inicio.html')
             } else{
                 

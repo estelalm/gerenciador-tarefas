@@ -57,15 +57,16 @@ const criarTarefa = (tarefas, tarefa) =>{
 
     let inputTitulo = document.createElement('input')
     let inputData = document.createElement('input')
+    inputData.type = 'date'
+
 
     const url = `http://localhost:5080/tarefas/${tarefa.id}`
     botaoEditarSalvar.addEventListener('click', async (clickEvent) =>{
 
         let botaoEditar = clickEvent.target
-        console.log('clicou', botaoEditar)
 
         let novoTitulo = inputTitulo.value
-        let novaData = inputData.value
+        let novaData = inputData.value.split('-').reverse().join('/')
 
         if(botaoEditar.classList[1] == 'edit-mode'){
 
@@ -90,7 +91,7 @@ const criarTarefa = (tarefas, tarefa) =>{
             }
             const response = await fetch(url, options)
 
-            console.log('save')
+            window.location.reload()
 
         }else{
             inputTitulo.value = tituloTarefa.textContent
@@ -107,9 +108,7 @@ const criarTarefa = (tarefas, tarefa) =>{
 
     
     deletarTarefa.addEventListener('click', async () =>{
-        // let tarefaIndex = tarefas.indexOf(tarefa)
-        // tarefas.splice(tarefaIndex, 1)
-        // console.log('clicou')
+
             const options = {
                 method: 'DELETE'
             }
@@ -148,7 +147,6 @@ const criarTarefa = (tarefas, tarefa) =>{
 
 const getDataAtual = () =>{
     let dataAtual = new Date().toLocaleDateString()
-    console.log(dataAtual)
     return dataAtual
 }
 
