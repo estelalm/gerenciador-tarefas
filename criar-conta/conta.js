@@ -33,11 +33,9 @@ const criarConta = () =>{
         getUsuarios().then(usuariosArray =>{
         usuarioJSON.id = usuariosArray.length ++
     })
-        usuarioJSON = {
-            "nome": nomeUsuario,
-            "email": emailUsuario,
-            "senha": senhaUsuario
-        }
+        usuarioJSON.nome = nomeUsuario{
+        usuarioJSON.email = emailUsuario
+        usuarioJSON.senha = senhaUsuario
 
          fetch('http://localhost:5080/usuario' , {
             method: 'POST', 
