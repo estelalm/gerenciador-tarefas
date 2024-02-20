@@ -1,4 +1,5 @@
-'use strict' 
+'use strict'
+
 
 async function getUsuarios() {
     const responseApi = await fetch('http://localhost:5080/usuario')
@@ -18,7 +19,10 @@ const criarConta = () =>{
     let senhaConfirmada = document.getElementById('confirma-senha').value
 
     if(nomeUsuario == "" || emailUsuario == "" || senhaUsuario == ""|| senhaConfirmada == ""){
-        alert('Preencha todos os campos!')
+        toast('Preencha todos os campos!', {
+            duration: 3000,
+            position: "top-center"
+        })
     }else if(!(senhaUsuario == senhaConfirmada)){
         alert('As senhas devem ser iguais')
     } else {

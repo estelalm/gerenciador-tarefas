@@ -18,6 +18,7 @@ async function getUsuarios() {
 
 const criarTarefa = (tarefas, tarefa) =>{
 
+
     const containerDeTarefas = document.getElementById('tarefas')
     const containerTarefaDeHoje = document.getElementById('tarefas-hoje')
 
@@ -57,7 +58,6 @@ const criarTarefa = (tarefas, tarefa) =>{
 
     let inputTitulo = document.createElement('input')
     let inputData = document.createElement('input')
-    inputData.type = 'date'
 
 
     const url = `http://localhost:5080/tarefas/${tarefa.id}`
@@ -66,7 +66,7 @@ const criarTarefa = (tarefas, tarefa) =>{
         let botaoEditar = clickEvent.target
 
         let novoTitulo = inputTitulo.value
-        let novaData = inputData.value.split('-').reverse().join('/')
+        let novaData = inputData.value
 
         if(botaoEditar.classList[1] == 'edit-mode'){
 

@@ -97,6 +97,13 @@ h3{
     justify-content: center;
     flex-direction: column;
     padding: 12px;
+    width: 80%;
+    text-overflow: ellipsis;
+}
+.info-tarefa span{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .icone-e-cor.edit-mode{
     background-color: var(--modo-editar);
