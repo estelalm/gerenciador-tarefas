@@ -45,17 +45,71 @@ const criarTarefa = (tarefas, tarefa) =>{
     infoTarefa.replaceChildren(tituloTarefa, dataConclusao)
     containerTarefa.replaceChildren(botaoEditarSalvar, infoTarefa, deletarTarefa)
     if(tarefa.dataConclusão == getDataAtual()){
-    containerTarefaDeHoje.appendChild(containerTarefa)
+
+        if(containerTarefaDeHoje.textContent == "Nenhuma tarefa a ser realizada hoje!!")
+        containerTarefaDeHoje.replaceChildren(containerTarefa)
+        else
+        containerTarefaDeHoje.appendChild(containerTarefa)
 
     }else{
         containerDeTarefas.appendChild(containerTarefa)
     }
-    botaoEditarSalvar.addEventListener('click', modoEditar)
+
+    let inputTitulo = document.createElement('input')
+    let inputData = document.createElement('input')
+
+    const url = `http://localhost:5080/tarefas/${tarefa.id}`
+    botaoEditarSalvar.addEventListener('click', async (clickEvent) =>{
+
+        let botaoEditar = clickEvent.target
+        console.log('clicou', botaoEditar)
+
+        let novoTitulo = inputTitulo.value
+        let novaData = inputData.value
+
+        if(botaoEditar.classList[1] == 'edit-mode'){
+
+            tituloTarefa.textContent = novoTitulo
+            dataConclusao.textContent = novaData
+
+            infoTarefa.replaceChildren(tituloTarefa, dataConclusao)
+
+            const options = {
+                method : 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        "id": tarefa.id,
+                        "descrição": novoTitulo,
+                        "dataConclusão": novaData,
+                        "idUsuario": tarefa.idUsuario
+                    }
+                )
+            }
+            const response = await fetch(url, options)
+
+            console.log('save')
+
+        }else{
+            inputTitulo.value = tituloTarefa.textContent
+            inputData.value = dataConclusao.textContent
+
+
+            infoTarefa.replaceChildren(inputTitulo, inputData)
+        }
+    
+        botaoEditar.classList.toggle('edit-mode')
+    
+    })
+
+
+    
     deletarTarefa.addEventListener('click', async () =>{
         // let tarefaIndex = tarefas.indexOf(tarefa)
         // tarefas.splice(tarefaIndex, 1)
         // console.log('clicou')
-            const url = `http://localhost:5080/tarefas/${tarefa.id}`
             const options = {
                 method: 'DELETE'
             }
@@ -64,6 +118,8 @@ const criarTarefa = (tarefas, tarefa) =>{
 
             window.location.reload()
     })
+
+
 
  }
 
@@ -87,19 +143,8 @@ const criarTarefa = (tarefas, tarefa) =>{
  }
 
 
-const modoEditar = (clickEvent) =>{
 
-    let botaoEditar = clickEvent.target
-    console.log('clicou', botaoEditar)
 
-    botaoEditar.classList.toggle('edit-mode')
-
-}
-const editarTarefa = (botaoEditar) =>{
-    if(!botaoEditar.classList == 'edit-mode'){
-
-    }
-}
 
 const getDataAtual = () =>{
     let dataAtual = new Date().toLocaleDateString()
