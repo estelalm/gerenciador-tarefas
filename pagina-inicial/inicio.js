@@ -15,8 +15,38 @@ async function getUsuarios() {
     return listaUsuarios
 }
 
+async function getSeguindo() {
+    const responseApi = await fetch('http://localhost:5080/seguindo')
+    const listaSeguindo = responseApi.json();
+    const usuariosSeguidos = listaSeguindo.forEach(usuario => {
+        if(usuario.id = idUsuario){
+            usuariosSeguidos = usuario.usuarios
+        }
+    })
+    return usuariosSeguidos
+}
+
+async function getPostsSeguindo() {
+   
+    let usuariosSeguidos = getSeguindo()
+
+    usuariosSeguidos.forEach(usuario =>{
+
+        let tarefas = getTarefas()
+        tarefas.forEach(tarefa =>{
+            if(usuario.id == tarefa.idUsuario){
+                // if(tarefa.publico)
+                criarTarefaTimeline(usuario, tarefa)
+            }
+        })
+
+    })
+} 
+
 
 const criarTarefa = (tarefas, tarefa) =>{
+
+
 
     const containerDeTarefas = document.getElementById('tarefas')
     const containerTarefaDeHoje = document.getElementById('tarefas-hoje')
@@ -57,7 +87,6 @@ const criarTarefa = (tarefas, tarefa) =>{
 
     let inputTitulo = document.createElement('input')
     let inputData = document.createElement('input')
-    inputData.type = 'date'
 
 
     const url = `http://localhost:5080/tarefas/${tarefa.id}`
@@ -66,7 +95,7 @@ const criarTarefa = (tarefas, tarefa) =>{
         let botaoEditar = clickEvent.target
 
         let novoTitulo = inputTitulo.value
-        let novaData = inputData.value.split('-').reverse().join('/')
+        let novaData = inputData.value
 
         if(botaoEditar.classList[1] == 'edit-mode'){
 
@@ -122,6 +151,85 @@ const criarTarefa = (tarefas, tarefa) =>{
 
  }
 
+const bloquearPremium = ()=>{
+
+    const containerDeTarefas = document.querySelector('.container-minhas-tarefas')
+
+    const painelPremium = document.createElement('div')
+    painelPremium.classList.add('painel-premium')
+
+    painelPremium.innerHTML = '<img src="../img/coroa.png" alt="Coroa"> <h2>Premium</h2> <p>Seja um assinante para desbloquear essa função</p>'
+
+    const botaoAdicionar = document.getElementById('add-tarefa')
+    botaoAdicionar.href = "#"
+    botaoAdicionar.innerHTML = 'Adicionar Tarefa <img src="../img/coroa.png">'
+    botaoAdicionar.style.backgroundColor = 'var(--botao)'
+
+    containerDeTarefas.replaceChildren(painelPremium)
+}
+
+const criarTarefaTimeline = (usuario, tarefa) =>{
+
+    const containerTimeline = document.getElementById('container-timeline')
+
+    const postTarefa = document.createElement('div')
+    postTarefa.classList.add('post-tarefa')
+
+    const username = document.createElement('p')
+    username.textContent = usuario.nome
+
+    const containerTarefa = document.createElement('div')
+    containerTarefa.classList.add('tarefa')
+    containerTarefa.classList.add('time-tarefa')
+
+    const botaoComentar = document.createElement('button')
+    botaoComentar.classList.add('icone-e-cor')
+
+    const infoTarefa = document.createElement('div')
+    infoTarefa.classList.add('info-tarefa')
+
+    const tituloTarefa = document.createElement('span')
+    tituloTarefa.textContent = tarefa.descrição
+    tituloTarefa.classList.add('titulo-tarefa')
+    
+    const dataConclusao = document.createElement('span')
+    dataConclusao.textContent = tarefa.dataConclusão
+    dataConclusao.classList.add('data-tarefa')
+
+    infoTarefa.replaceChildren(tituloTarefa, dataConclusao)
+    containerTarefa.replaceChildren(botaoComentar, infoTarefa, deletarTarefa)
+
+    postTarefa.replaceChildren(username, containerTarefa)
+    
+    ///////////////////////////////////////////////////////////////////////
+
+    const fotoPerfil = document.createElement('div')
+    let imagemUsuario 
+    if(usuario.imagem == null)
+    imagemUsuario = '../img/usuario.webp'
+    else
+    imagemUsuario = usuario.imagem
+
+    fotoPerfil.classList.add('foto-perfil')
+    if(usuario.premium){
+
+
+        fotoPerfil.innerHTML = `<img class="coroa" src="../img/coroa.png" alt=""> <a href="#"><img src="${imagemUsuario}" alt=""></a>`   
+    }else{
+        fotoPerfil.innerHTML = `<a href="#"><img src="${imagemUsuario}" alt=""></a>`   
+    }
+
+
+    let postContainer = document.createElement('div')
+    postContainer.classList.add('post-container')
+
+    postContainer.replaceChildren(fotoPerfil, postTarefa)
+    //////////////////////////////////////////////////////////////////////
+
+    
+    
+
+}
  const carregarTarefas = async () =>{
      const tarefas = await getTarefas()
      tarefas.forEach(tarefa =>{
@@ -137,12 +245,14 @@ const criarTarefa = (tarefas, tarefa) =>{
             let nomeUsuario = usuario.nome.split(" ")
             let campoNomeUsuario = document.getElementById('nomeUsuario')
             campoNomeUsuario.textContent = nomeUsuario[0]
+            if(usuario.premium){
+                carregarTarefas()
+            }else{
+                bloquearPremium()
+            }
         }
      })
  }
-
-
-
 
 
 const getDataAtual = () =>{
@@ -151,6 +261,4 @@ const getDataAtual = () =>{
 }
 
 getDataAtual()
-
 carregarUsuario()
-carregarTarefas()
