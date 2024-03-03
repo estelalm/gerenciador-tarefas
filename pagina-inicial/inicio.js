@@ -1,6 +1,8 @@
 'use strict'
 
+//id do usuário atualmente conectado
 let usuarioId = localStorage.getItem('usuarioId')
+let idPerfil
 
 async function getTarefas() {
     const responseApi = await fetch('http://localhost:5080/tarefas')
@@ -15,38 +17,10 @@ async function getUsuarios() {
     return listaUsuarios
 }
 
-async function getSeguindo() {
-    const responseApi = await fetch('http://localhost:5080/seguindo')
-    const listaSeguindo = responseApi.json();
-    const usuariosSeguidos = listaSeguindo.forEach(usuario => {
-        if(usuario.id = idUsuario){
-            usuariosSeguidos = usuario.usuarios
-        }
-    })
-    return usuariosSeguidos
-}
+/***/
 
-async function getPostsSeguindo() {
-   
-    let usuariosSeguidos = getSeguindo()
-
-    usuariosSeguidos.forEach(usuario =>{
-
-        let tarefas = getTarefas()
-        tarefas.forEach(tarefa =>{
-            if(usuario.id == tarefa.idUsuario){
-                // if(tarefa.publico)
-                criarTarefaTimeline(usuario, tarefa)
-            }
-        })
-
-    })
-} 
-
-
+//criar as tarefas do usuário
 const criarTarefa = (tarefas, tarefa) =>{
-
-
 
     const containerDeTarefas = document.getElementById('tarefas')
     const containerTarefaDeHoje = document.getElementById('tarefas-hoje')
@@ -61,7 +35,7 @@ const criarTarefa = (tarefas, tarefa) =>{
     infoTarefa.classList.add('info-tarefa')
 
     const tituloTarefa = document.createElement('span')
-    tituloTarefa.textContent = tarefa.descrição
+    tituloTarefa.textContent = tarefa.descricao
     tituloTarefa.classList.add('titulo-tarefa')
     
     const dataConclusao = document.createElement('span')
@@ -112,7 +86,7 @@ const criarTarefa = (tarefas, tarefa) =>{
                 body: JSON.stringify(
                     {
                         "id": tarefa.id,
-                        "descrição": novoTitulo,
+                        "descricao": novoTitulo,
                         "dataConclusão": novaData,
                         "idUsuario": tarefa.idUsuario
                     }
@@ -151,6 +125,7 @@ const criarTarefa = (tarefas, tarefa) =>{
 
  }
 
+ //criar um aviso sobre as permissões de usuários sem premium
 const bloquearPremium = ()=>{
 
     const containerDeTarefas = document.querySelector('.container-minhas-tarefas')
@@ -158,25 +133,122 @@ const bloquearPremium = ()=>{
     const painelPremium = document.createElement('div')
     painelPremium.classList.add('painel-premium')
 
-    painelPremium.innerHTML = '<img src="../img/coroa.png" alt="Coroa"> <h2>Premium</h2> <p>Seja um assinante para desbloquear essa função</p>'
+    painelPremium.innerHTML = '<img src="../img/coroa.png" alt="Coroa"> <a href="../premium/premium.html"><h2>Seja Premium</h2></a> <p>Essa é uma função exclusiva para assinantes</p>'
 
     const botaoAdicionar = document.getElementById('add-tarefa')
     botaoAdicionar.href = "#"
     botaoAdicionar.innerHTML = 'Adicionar Tarefa <img src="../img/coroa.png">'
     botaoAdicionar.style.backgroundColor = 'var(--botao)'
 
+    painelPremium.addEventListener('click', () =>{
+        idPerfil = usuarioId
+        localStorage.setItem('idPerfil', idPerfil)
+    })
+
     containerDeTarefas.replaceChildren(painelPremium)
 }
 
-const criarTarefaTimeline = (usuario, tarefa) =>{
+//criar ou excluir comentários
+const criarComentario = (event) =>{ 
+
+    const comentarios = event.target.comentariosArray
+    const comentarioContainer = event.target.comentarioContainer
+    const tarefa = event.target.jsonTarefa
+
+    let comentarContainer = document.createElement('div')
+    comentarContainer.classList.add('comentar-container')
+
+    let inputComentario = document.createElement('input')
+    inputComentario.classList.add('campoComentar')
+    
+    let botaoEnviar = document.createElement('button')
+    botaoEnviar.classList.add('enviar')
+    botaoEnviar.innerHTML = 'Enviar'
+    comentarContainer.replaceChildren(inputComentario, botaoEnviar)
+
+    comentarioContainer.appendChild(comentarContainer)
+    botaoEnviar.addEventListener('click', () =>{
+
+    let idComentario = comentarios.length + 1
+       let novoComentarioConteudo =  inputComentario.value
+       let novoComentario = {
+        "id": idComentario,
+        "idUsuario": usuarioId,
+        "conteudo": novoComentarioConteudo,
+        "dataComentario": getDataAtual()
+       }
+       comentarios.push(novoComentario)
+
+       tarefa.comentarios = comentarios
+
+       enviarComentario(tarefa)
+       window.location.reload()
+    })
+}
+const excluirComentario = event =>{
+    const tarefa = event.target.jsonTarefa
+    
+    const comentarios = tarefa.comentarios
+    const comentario = event.target.comentario
+
+    const indexComentario = comentarios.indexOf(comentario)
+
+    comentarios.splice(indexComentario, 1)
+
+    //atualiza os comentários da tarefa
+    tarefa.comentarios = comentarios
+
+    enviarComentario(tarefa)
+    window.location.reload()
+}
+
+//função para atualizar a tarefa com os novos comentários
+async function enviarComentario (tarefa){
+    const url = `http://localhost:5080/tarefas/${tarefa.id}`
+    const options = {
+        method : 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tarefa)
+    }
+    const response = await fetch(url, options)
+    console.log (response.ok)
+    return response.ok
+}
+
+//criar as tarefas que aparecem na timeline do usuário
+const criarTarefaTimeline = ( tarefa, usuarios) =>{
 
     const containerTimeline = document.getElementById('container-timeline')
-
+ 
     const postTarefa = document.createElement('div')
     postTarefa.classList.add('post-tarefa')
 
+    const fotoPerfil = document.createElement('div')
+    fotoPerfil.classList.add('foto-perfil')
+    let imagemUsuario 
     const username = document.createElement('p')
-    username.textContent = usuario.nome
+    usuarios.forEach(usuario =>{
+        if(tarefa.idUsuario == usuario.id)
+        username.textContent = usuario.nome
+
+        if(usuario.imagem == null)
+        imagemUsuario = '../img/usuario.webp'
+        else
+        imagemUsuario = usuario.imagem
+    
+        if(usuario.premium){
+            fotoPerfil.innerHTML = `<img class="coroa" src="../img/coroa.png" alt=""> <a href="../perfil/perfil.html"><img src="${imagemUsuario}" alt=""></a>`   
+        }else{
+            fotoPerfil.innerHTML = `<a href="../perfil/perfil.html"><img src="${imagemUsuario}" alt=""></a>`   
+        }
+        fotoPerfil.addEventListener('click', () =>{
+            idPerfil = usuario.id
+            localStorage.setItem('idPerfil', idPerfil)
+        })
+    })
+
 
     const containerTarefa = document.createElement('div')
     containerTarefa.classList.add('tarefa')
@@ -185,11 +257,16 @@ const criarTarefaTimeline = (usuario, tarefa) =>{
     const botaoComentar = document.createElement('button')
     botaoComentar.classList.add('icone-e-cor')
 
+    botaoComentar.addEventListener('click', criarComentario)
+    botaoComentar.comentariosArray = tarefa.comentarios
+    botaoComentar.jsonTarefa = tarefa
+
     const infoTarefa = document.createElement('div')
     infoTarefa.classList.add('info-tarefa')
 
     const tituloTarefa = document.createElement('span')
-    tituloTarefa.textContent = tarefa.descrição
+    tituloTarefa.textContent = tarefa.descricao
+    console.log(tarefa.descricao)
     tituloTarefa.classList.add('titulo-tarefa')
     
     const dataConclusao = document.createElement('span')
@@ -197,27 +274,11 @@ const criarTarefaTimeline = (usuario, tarefa) =>{
     dataConclusao.classList.add('data-tarefa')
 
     infoTarefa.replaceChildren(tituloTarefa, dataConclusao)
-    containerTarefa.replaceChildren(botaoComentar, infoTarefa, deletarTarefa)
+    containerTarefa.replaceChildren(botaoComentar, infoTarefa)
 
     postTarefa.replaceChildren(username, containerTarefa)
     
     ///////////////////////////////////////////////////////////////////////
-
-    const fotoPerfil = document.createElement('div')
-    let imagemUsuario 
-    if(usuario.imagem == null)
-    imagemUsuario = '../img/usuario.webp'
-    else
-    imagemUsuario = usuario.imagem
-
-    fotoPerfil.classList.add('foto-perfil')
-    if(usuario.premium){
-
-
-        fotoPerfil.innerHTML = `<img class="coroa" src="../img/coroa.png" alt=""> <a href="#"><img src="${imagemUsuario}" alt=""></a>`   
-    }else{
-        fotoPerfil.innerHTML = `<a href="#"><img src="${imagemUsuario}" alt=""></a>`   
-    }
 
 
     let postContainer = document.createElement('div')
@@ -226,18 +287,95 @@ const criarTarefaTimeline = (usuario, tarefa) =>{
     postContainer.replaceChildren(fotoPerfil, postTarefa)
     //////////////////////////////////////////////////////////////////////
 
-    
-    
+    const postComentarios = document.createElement('div')
+    postComentarios.classList.add('post-comentarios')
+    botaoComentar.comentarioContainer = postComentarios
+    tarefa.comentarios.forEach(comentario =>{
+        const postComentario = document.createElement('div')
+        postComentario.classList.add('post-comentario')
+
+        const fotoComentario = document.createElement('div')
+        fotoComentario.classList.add('foto-perfil')
+        fotoComentario.classList.add('foto-comentario')
+
+        let fotoPerfilComentario
+        let nomeComentario
+        usuarios.forEach(usuarioComentario =>{
+            if(usuarioComentario.id == comentario.idUsuario){
+                if(usuarioComentario.imagem == null)
+                fotoPerfilComentario = '../img/usuario.webp' 
+                else
+                fotoPerfilComentario = usuarioComentario.imagem
+
+            if(usuarioComentario.premium){
+                let coroaPremium = document.createElement('img')
+                coroaPremium.src = '../img/coroa.png'
+                coroaPremium.classList.add('coroa')
+
+                fotoComentario.appendChild(coroaPremium)
+            }
+            nomeComentario = usuarioComentario.nome
+
+            const linkPerfil = document.createElement('a')
+            linkPerfil.href = '../perfil/perfil.html'
+            linkPerfil.style.backgroundImage = `url('${fotoPerfilComentario}')`
+
+            linkPerfil.addEventListener('click', () => {
+                idPerfil = usuario.id
+                localStorage.setItem('idPerfil', idPerfil)
+            })
+
+            fotoComentario.appendChild(linkPerfil)
+            console.log()
+        }
+        })
+        
+        const conteudoComentario = document.createElement('p')
+        conteudoComentario.classList.add('comentario')
+        conteudoComentario.textContent = `${nomeComentario}: ${comentario.conteudo}`
+
+        //caso o comentário seja do usuário conectado, haverá a função de deletar
+        if(comentario.idUsuario == usuarioId) {
+            const deletarComentario = document.createElement('button')
+            deletarComentario.classList.add('deletar-comentario')
+            conteudoComentario.appendChild(deletarComentario)
+
+            deletarComentario.jsonTarefa = tarefa
+            deletarComentario.comentario = comentario
+
+            deletarComentario.addEventListener('click', excluirComentario)
+        }
+        postComentario.replaceChildren(fotoComentario, conteudoComentario)
+        postComentarios.appendChild(postComentario)
+    })
+
+    const tarefaTimeline = document.createElement('div')
+    tarefaTimeline.classList.add('tarefa-timeline')
+    tarefaTimeline.replaceChildren(postContainer,postComentarios)
+
+    containerTimeline.appendChild(tarefaTimeline)
 
 }
- const carregarTarefas = async () =>{
+
+//carregar as tarefas na página inicial, dependendo do premium e dos usuários seguidos
+ const carregarTarefas = async (usuario, usuarios) =>{
      const tarefas = await getTarefas()
      tarefas.forEach(tarefa =>{
-         if(tarefa.idUsuario == usuarioId)
-          criarTarefa(tarefas, tarefa)
+         if(tarefa.idUsuario == usuarioId){
+            criarTarefa(tarefas, tarefa)
+         }
+        usuario.seguindo.forEach(seguindo =>{
+            if(tarefa.idUsuario == seguindo){
+                if(tarefa.publico)
+                criarTarefaTimeline( tarefa, usuarios)
+            }
+
+        })
+
      })
  }
 
+//identificar o usuário e suas permissões
  const carregarUsuario = async () =>{
      const usuarios = await getUsuarios()
      usuarios.forEach(usuario =>{
@@ -246,7 +384,7 @@ const criarTarefaTimeline = (usuario, tarefa) =>{
             let campoNomeUsuario = document.getElementById('nomeUsuario')
             campoNomeUsuario.textContent = nomeUsuario[0]
             if(usuario.premium){
-                carregarTarefas()
+                carregarTarefas(usuario, usuarios)
             }else{
                 bloquearPremium()
             }
@@ -254,11 +392,13 @@ const criarTarefaTimeline = (usuario, tarefa) =>{
      })
  }
 
-
+ //identificar a data atual
 const getDataAtual = () =>{
     let dataAtual = new Date().toLocaleDateString()
     return dataAtual
 }
 
+
+//chamar as funções iniciais
 getDataAtual()
 carregarUsuario()

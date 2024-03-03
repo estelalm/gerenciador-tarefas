@@ -44,10 +44,11 @@ main{
     background-color: #F9F9F7;
     border-radius: 10px;
     display: grid;
-    padding: 64px 24px;
+    padding: 56px 24px;
     border: solid 1px black;
     place-content: center;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 2vw;
 }
 
 h1{
@@ -94,4 +95,13 @@ button{
     border-radius: 12px;
     height: 8vh;
     font-size: 1.2rem;
+}
+
+span{
+    padding: 10px;
+}
+.select{
+    display: flex;
+    width: 100%;
+    align-items: center;
 }
