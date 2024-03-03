@@ -2,7 +2,15 @@
 
 //id do usuário atualmente conectado
 let usuarioId = localStorage.getItem('usuarioId')
-let idPerfil
+let idPerfil = 0
+
+console.log(idPerfil)
+const fotoUsuario = document.getElementById('perfil-link')
+fotoUsuario.addEventListener('click',() =>{
+    idPerfil = usuarioId
+    localStorage.setItem('idPerfil', idPerfil)
+})
+
 
 async function getTarefas() {
     const responseApi = await fetch('http://localhost:5080/tarefas')
@@ -230,23 +238,24 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
     let imagemUsuario 
     const username = document.createElement('p')
     usuarios.forEach(usuario =>{
-        if(tarefa.idUsuario == usuario.id)
-        username.textContent = usuario.nome
+        if(tarefa.idUsuario == usuario.id){
+            fotoPerfil.addEventListener('click', () =>{
+                idPerfil = usuario.id
+                localStorage.setItem('idPerfil', idPerfil)
+            })
+            username.textContent = usuario.nome
 
-        if(usuario.imagem == null)
-        imagemUsuario = '../img/usuario.webp'
-        else
-        imagemUsuario = usuario.imagem
-    
-        if(usuario.premium){
-            fotoPerfil.innerHTML = `<img class="coroa" src="../img/coroa.png" alt=""> <a href="../perfil/perfil.html"><img src="${imagemUsuario}" alt=""></a>`   
-        }else{
-            fotoPerfil.innerHTML = `<a href="../perfil/perfil.html"><img src="${imagemUsuario}" alt=""></a>`   
+            if(usuario.imagem == null)
+            imagemUsuario = '../img/usuario.webp'
+            else
+            imagemUsuario = usuario.imagem
+        
+            if(usuario.premium){
+                fotoPerfil.innerHTML = `<img class="coroa" src="../img/coroa.png" alt=""> <a href="../perfil/perfil.html"><img src="${imagemUsuario}" alt=""></a>`   
+            }else{
+                fotoPerfil.innerHTML = `<a href="../perfil/perfil.html"><img src="${imagemUsuario}" alt=""></a>`   
+            }
         }
-        fotoPerfil.addEventListener('click', () =>{
-            idPerfil = usuario.id
-            localStorage.setItem('idPerfil', idPerfil)
-        })
     })
 
 
@@ -321,7 +330,7 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
             linkPerfil.style.backgroundImage = `url('${fotoPerfilComentario}')`
 
             linkPerfil.addEventListener('click', () => {
-                idPerfil = usuario.id
+                idPerfil = usuarioComentario.id
                 localStorage.setItem('idPerfil', idPerfil)
             })
 
