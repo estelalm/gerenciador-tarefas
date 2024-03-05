@@ -323,3 +323,35 @@ input:hover{
     position: relative;
     place-self: end;
 }
+
+.comentar-container{
+    display: flex;
+    gap: 12px;
+    margin-left: 132px;
+}
+
+.comentar-container{
+    border-radius: 10px;
+    border: solid 1px black;
+    background-color: var(--branco);
+    padding: 10px;
+    width: 15vw;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.comentar-container button{
+    width: 100px;
+    height: 25px;
+    background-color: #F6C0F8;
+    text-decoration: none;
+    border-radius: 10px;
+    font-family: 'Lakki Reddy', serif;
+}
+
+.campo-comentar input{
+    outline-style: none;
+    width: 20px;
+}

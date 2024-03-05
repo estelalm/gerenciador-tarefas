@@ -168,6 +168,7 @@ const criarComentario = (event) =>{
 
     let inputComentario = document.createElement('input')
     inputComentario.classList.add('campoComentar')
+    inputComentario.innerHTML = 'Digite alguma coisa'
     
     let botaoEnviar = document.createElement('button')
     botaoEnviar.classList.add('enviar')
