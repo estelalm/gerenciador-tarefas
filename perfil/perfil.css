@@ -64,11 +64,15 @@ span{
 
 .usuario{
     width: 100%;
-    display: grid;
-    place-content: center;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
     gap: 20px;
 }
-
+.coroa{
+    height: 40px;
+    width: 70px;
+}
 
 
 .informacoes{
@@ -123,7 +127,7 @@ p{
     gap: 18px;
 }
 
-.deletar{
+.remover{
     height: 7vh;
     width: 8vw;
     background-color: #FF5B65;

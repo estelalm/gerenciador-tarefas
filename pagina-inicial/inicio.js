@@ -1,5 +1,9 @@
 'use strict'
 
+import {getUsuario} from "../funcoes_get.js"
+
+
+
 //id do usuário atualmente conectado
 let usuarioId = localStorage.getItem('usuarioId')
 let idPerfil = 0
@@ -226,7 +230,7 @@ async function enviarComentario (tarefa){
 }
 
 //criar as tarefas que aparecem na timeline do usuário
-const criarTarefaTimeline = ( tarefa, usuarios) =>{
+const criarTarefaTimeline = (tarefa, usuarios) =>{
 
     const containerTimeline = document.getElementById('container-timeline')
  
@@ -275,7 +279,6 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
 
     const tituloTarefa = document.createElement('span')
     tituloTarefa.textContent = tarefa.descricao
-    console.log(tarefa.descricao)
     tituloTarefa.classList.add('titulo-tarefa')
     
     const dataConclusao = document.createElement('span')
@@ -373,15 +376,23 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
          if(tarefa.idUsuario == usuarioId){
             criarTarefa(tarefas, tarefa)
          }
-        usuario.seguindo.forEach(seguindo =>{
-            if(tarefa.idUsuario == seguindo){
-                if(tarefa.publico)
-                criarTarefaTimeline( tarefa, usuarios)
-            }
-
-        })
-
      })
+ }
+
+ const carregarTarefasTimeline = async(usuarios) =>{
+
+    let usuario = await getUsuario(usuarioId) 
+    const tarefas = await getTarefas()
+    
+    tarefas.forEach(tarefa =>{
+        usuario.seguindo.forEach(seguindoId =>{
+            if(tarefa.idUsuario == seguindoId){
+                if(tarefa.publico)
+                criarTarefaTimeline(tarefa, usuarios)
+            }
+        })
+    })
+
  }
 
 //identificar o usuário e suas permissões
@@ -393,6 +404,8 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
             let campoNomeUsuario = document.getElementById('nomeUsuario')
             campoNomeUsuario.textContent = nomeUsuario[0]
             criarRecomendados(usuario)
+
+            carregarTarefasTimeline(usuarios)
             if(usuario.premium){
                 carregarTarefas(usuario, usuarios)
             }else{
@@ -414,28 +427,21 @@ const criarRecomendados = async (usuarioAtual) =>{
 
     const menu = document.getElementById('menu')
 
-    let stringSeguindo = "0"
+    console.log(usuarioAtual.seguindo)
     usuarios.forEach(usuario =>{
-
-       usuarioAtual.seguindo.forEach(seguindo => {
-            stringSeguindo += seguindo
-       })
-       if(toString(usuario.id).match(stringSeguindo)){
-
-       }else{
+        if(usuarioAtual.seguindo.includes(usuario.id) || usuarioAtual.seguindo.includes(usuario.id.toString()) || usuarioAtual.id == usuario.id){
+           
+        }else{
             let recomendado = document.createElement('a')
             recomendado.href = '../perfil/perfil.html'
-
             recomendado.style.backgroundImage =`url(../img/usuario.webp)`
-            
             recomendado.addEventListener('click', () => {
                 idPerfil = usuario.id
                 localStorage.setItem('idPerfil', idPerfil)
+    
             })
-
             menu.appendChild(recomendado)
         }
-
     })
 
 }

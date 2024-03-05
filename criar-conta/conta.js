@@ -24,12 +24,13 @@ const criarConta = () =>{
     } else {
         alert('Conta criada, voltando para a página de Login.')
 
-
+        let userId
        let usuarioJSON = {}
         getUsuarios().then(usuariosArray =>{
-        usuarioJSON.id = usuariosArray.length ++
+        userId = usuariosArray.length++
     })
         usuarioJSON = {
+            "id": userId,
             "nome": nomeUsuario,
             "email": emailUsuario,
             "senha": senhaUsuario,
