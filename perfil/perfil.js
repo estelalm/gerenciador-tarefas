@@ -3,6 +3,7 @@
 const idUsuario = localStorage.getItem('idPerfil')
 console.log(idUsuario)
 
+
 const usuarioAtual = localStorage.getItem('usuarioId')
 
 async function getUsuario() {
@@ -18,7 +19,11 @@ async function getUsuarioAtual() {
     return usuario
 }
 
+
+
 const criarPerfil = async () =>{
+
+    const usuarioAtualJSON = await getUsuarioAtual()
 
     const card = document.querySelector('.card')
 
@@ -63,28 +68,70 @@ const criarPerfil = async () =>{
         
     }else{
 
+        const usuarioContainer = document.querySelector('.usuario')
+
+        if(usuario.premium){
+           const coroa = document.createElement('img')
+           coroa.classList.add('coroa')
+           coroa.src = '../img/coroa.png'
+
+           usuarioContainer.appendChild(coroa)
+        }
+
         const botoes = document.createElement('div')
         botoes.classList.add('botoes')
 
-        const botaoSeguir = document.createElement('button')
-        botaoSeguir.classList.add('seguir')
-        botaoSeguir.textContent = "Seguir"
+        if(usuarioAtualJSON.seguindo.includes(idUsuario)){
 
-        botoes.appendChild(botaoSeguir)
+            const botaoDeixarSeguir = document.createElement('button')
+            botaoDeixarSeguir.classList.add('remover')
+            botaoDeixarSeguir.textContent = "Deixar de Seguir"
+
+            botoes.appendChild(botaoDeixarSeguir)
+
+            
+           botaoDeixarSeguir.addEventListener('click', deixarDeSeguir)
+
+        }else{
+            const botaoSeguir = document.createElement('button')
+            botaoSeguir.classList.add('seguir')
+            botaoSeguir.textContent = "Seguir"
+
+            botoes.appendChild(botaoSeguir)
+            botaoSeguir.addEventListener('click', seguir)
+            botaoSeguir.usuario = usuario
+        }
+
         card.appendChild(botoes)
 
-        botaoSeguir.addEventListener('click', seguir)
-        botaoSeguir.usuario = usuario
+
     }
     
 }
 
 const seguir = async (event) =>{
+
     const usuario = await getUsuarioAtual()
 
-    usuario.seguindo.push(idUsuario)
+    if(usuario.seguindo.includes(idUsuario) |usuario.seguindo.includes(idUsuario.toString())){
+
+    }else{
+        usuario.seguindo.push(idUsuario)
+    }
+    
+    enviarSeguindo(usuario)
+    window.location.reload()
+}
+
+const deixarDeSeguir = async () =>{
+    const usuario = await getUsuarioAtual()
+
+    const seguindoArray = usuario.seguindo
+
+    seguindoArray.splice(seguindoArray.indexOf(idUsuario), 1)
 
     enviarSeguindo(usuario)
+    window.location.reload()
 }
 
 const enviarSeguindo = async (usuario) =>{
