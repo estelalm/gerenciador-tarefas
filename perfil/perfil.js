@@ -42,15 +42,30 @@ const criarPerfil = async () =>{
             senha += '*'
         }
 
-        informacoesContainer.innerHTML = `           
-         <span>Email</span>
-        <div class="info">
-            <p>${usuario.email}</p>
-        </div>
-        <span>Senha</span>
-        <div class="info">
-            <p>${senha}</p>
-        </div>`
+        const informacoesContainer = document.createElement('span')
+        const informacoesContainer = document.createElement('div')
+        informacoesContainer.classList.add('info')
+
+        const informacoesContainer = document.createElement('p')
+        informacoesContainer.classList.add(`${usuario.email}`)
+
+        const informacoesContainer = document.createElement('span')
+        informacoesContainer.classList.add('info')
+
+        const informacoesContainer = document.createElement('p')
+        informacoesContainer.classList.add(`${senha}`)
+
+
+
+        // informacoesContainer.innerHTML = `           
+        //  <span>Email</span>
+        // <div class="info">
+        //     <p>${usuario.email}</p>
+        // </div>
+        // <span>Senha</span>
+        // <div class="info">
+        //     <p>${senha}</p>
+        // </div>`
 
         card.appendChild(informacoesContainer)
 
