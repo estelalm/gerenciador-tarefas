@@ -54,7 +54,7 @@ const criarPerfil = async () =>{
             botaoSejaPremium.classList.add('serPremium')
     
         botaoSejaPremium.innerHTML = `
-        <a class="premium" href="">
+        <a class="premium" href="../premium/premium.html">
         <img src="../img/mdi_crown.png" alt="">
         Seja Premium</a>`
             
