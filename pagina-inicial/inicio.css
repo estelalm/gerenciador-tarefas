@@ -97,6 +97,7 @@ main{
     overflow-x: scroll;
     overflow-y: hidden;
     align-items: center;
+    font-family:  var( --textos);
     gap: 6px;
 }
 .menu::-webkit-scrollbar{
@@ -106,7 +107,9 @@ main{
     height: 100%;
     aspect-ratio: 1/1;
     border-radius: 50px;
-    background-color: #539ed8;
+    background-size: cover;
+    background-position: center;
+    background-image: url(../img/usuario.webp);
 }
 
 .display-tarefas{
@@ -192,6 +195,7 @@ h3{
 }
 .time-tarefa .icone-e-cor{
     background-image: url("../img/comentar.png");
+    background-position: center;
 }
 .icone-e-cor:hover{
     background-color: #539ed8;
