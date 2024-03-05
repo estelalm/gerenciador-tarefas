@@ -81,6 +81,8 @@ span{
     height: 3.5vh;
     border-radius: 10px;
     width: 20vw;
+    display: flex;
+    align-items: center;
 }
 
 p{
@@ -129,7 +131,7 @@ p{
     border-radius: 10px;
 }
 
-.salvar{
+.seguir{
     height: 7vh;
     width: 8vw;
     background-color: #B884E9;

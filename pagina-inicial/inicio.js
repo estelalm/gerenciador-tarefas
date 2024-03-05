@@ -392,6 +392,7 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
             let nomeUsuario = usuario.nome.split(" ")
             let campoNomeUsuario = document.getElementById('nomeUsuario')
             campoNomeUsuario.textContent = nomeUsuario[0]
+            criarRecomendados(usuario)
             if(usuario.premium){
                 carregarTarefas(usuario, usuarios)
             }else{
@@ -405,6 +406,38 @@ const criarTarefaTimeline = ( tarefa, usuarios) =>{
 const getDataAtual = () =>{
     let dataAtual = new Date().toLocaleDateString()
     return dataAtual
+}
+
+const criarRecomendados = async (usuarioAtual) =>{
+
+    let usuarios = await getUsuarios()
+
+    const menu = document.getElementById('menu')
+
+    let stringSeguindo = "0"
+    usuarios.forEach(usuario =>{
+
+       usuarioAtual.seguindo.forEach(seguindo => {
+            stringSeguindo += seguindo
+       })
+       if(toString(usuario.id).match(stringSeguindo)){
+
+       }else{
+            let recomendado = document.createElement('a')
+            recomendado.href = '../perfil/perfil.html'
+
+            recomendado.style.backgroundImage =`url(../img/usuario.webp)`
+            
+            recomendado.addEventListener('click', () => {
+                idPerfil = usuario.id
+                localStorage.setItem('idPerfil', idPerfil)
+            })
+
+            menu.appendChild(recomendado)
+        }
+
+    })
+
 }
 
 

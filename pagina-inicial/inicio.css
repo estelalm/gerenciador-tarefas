@@ -91,6 +91,22 @@ main{
 .menu{
     width: 50%;
     background-color: var(--fundo2);
+    display: flex;
+    padding: 2px;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    align-items: center;
+    gap: 6px;
+}
+.menu::-webkit-scrollbar{
+    display: none;
+}
+.menu a {
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50px;
+    background-color: #539ed8;
 }
 
 .display-tarefas{

@@ -32,7 +32,10 @@ const criarConta = () =>{
         usuarioJSON = {
             "nome": nomeUsuario,
             "email": emailUsuario,
-            "senha": senhaUsuario
+            "senha": senhaUsuario,
+            "imagem": null,
+            "premium": false,
+            "seguindo": [ ]
         }
 
          fetch('http://localhost:5080/usuario' , {
